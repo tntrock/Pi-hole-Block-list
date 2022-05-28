@@ -1,6 +1,12 @@
 # Pi-hole Blocklist (Collect and Organize By AllenYen)
 
+家母最近迷上了看中國的網路小説，網站中充斥著各種廣告及病毒<br>
+最近閒閒沒事，剛好手邊有一塊沒在用的RaspberryPi 3，於是就在家裡弄了個Pi-hole來擋擋廣告<br>
+分享一下我所使用的BlockList給大家參考
+
+
 ## Simple List
+
 EasyList<br>
 https://justdomains.github.io/blocklists/lists/easylist-justdomains.txt
 
