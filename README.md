@@ -15,7 +15,7 @@ https://github.com/tntrock/Pi-hole-Block-list/releases/download/blocklist/blockl
 - Pi-hole v6：Lists → 貼上網址 → Add blocklist，再到 Tools → Update Gravity
 - Pi-hole v5：Group Management → Adlists → 貼上網址 → Add，再執行 `pihole -g`
 
-每天台灣時間凌晨 2:23 由 GitHub Actions 自動重新產生。每次建置的報告（各來源狀態、數量、白名單命中）
+每 4 小時整點（台灣時間 0、4、8、12、16、20 點）由 GitHub Actions 自動重新產生。每次建置的報告（各來源狀態、數量、白名單命中）
 在 [Releases 頁面](https://github.com/tntrock/Pi-hole-Block-list/releases/tag/blocklist)。
 
 ## 自動化做了什麼

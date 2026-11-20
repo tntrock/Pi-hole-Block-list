@@ -2,7 +2,7 @@ name: Build blocklist
 
 on:
   schedule:
-    - cron: "23 18 * * *" # 每天台灣時間 02:23
+    - cron: "0 */4 * * *" # 每 4 小時整點（台灣時間 0、4、8、12、16、20 點）
   workflow_dispatch:
     inputs:
       force:
