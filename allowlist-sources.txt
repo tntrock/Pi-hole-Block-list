@@ -1,0 +1,5 @@
+# 白名單來源（遠端），這些網域會從最終清單移除
+# 格式同 sources.txt
+
+# anudeepND：Pi-hole 社群整理、最常被誤擋而導致服務壞掉的網域
+https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt

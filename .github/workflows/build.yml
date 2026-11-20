@@ -1,0 +1,81 @@
+name: Build blocklist
+
+on:
+  schedule:
+    - cron: "23 18 * * *" # 每天台灣時間 02:23
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "略過「數量驟減」安全檢查"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - sources.txt
+      - allowlist.txt
+      - allowlist-sources.txt
+      - scripts/**
+      - .github/workflows/build.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-blocklist
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: blocklist
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 上次下載的原始清單：來源暫時掛掉時拿來頂替
+      - name: Restore source cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache
+          key: sources-${{ github.run_id }}
+          restore-keys: sources-
+
+      # 上次的 state.json：用來判斷來源多久沒更新、總數有沒有驟減
+      - name: Download previous state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download "$RELEASE_TAG" -p state.json -D out || echo "沒有上一次的 state，首次建置"
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force && '1' || '' }}
+        run: python scripts/build.py
+
+      - name: Save source cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache
+          key: sources-${{ github.run_id }}
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --title "Blocklist" --notes "初始化" --latest
+          fi
+          gh release upload "$RELEASE_TAG" out/blocklist.txt out/state.json out/report.md --clobber
+          gh release edit "$RELEASE_TAG" --title "Blocklist $(date -u -d '+8 hours' '+%Y-%m-%d')" --notes-file out/report.md
+
+      - name: Job summary
+        if: always()
+        run: test -f out/report.md && cat out/report.md >> "$GITHUB_STEP_SUMMARY" || true

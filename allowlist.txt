@@ -1,0 +1,170 @@
+# 手動白名單：這裡的網域永遠不會出現在最終清單
+#
+# 寫法：
+#   example.com        只放行 example.com 本身
+#   *.example.com      放行 example.com 以及它所有子網域
+#   ||example.com^     同上（AdBlock 寫法）
+#
+# 原則：只放「擋了會讓一般使用壞掉」的網域；廣告/追蹤子網域
+# （如 googleadservices.com、doubleclick.net）是不同網域，不受影響。
+# 發現誤擋時，直接在這裡加一行並 push，下次建置就會生效。
+
+# ── 台灣政府 / 學術 / 金融 ──
+*.gov.tw
+*.edu.tw
+*.twca.com.tw
+*.fisc.com.tw
+*.taiwanpay.com.tw
+
+# ── 台灣常用服務 ──
+*.line.me
+*.line-scdn.net
+*.line-apps.com
+*.naver.jp
+*.pchome.com.tw
+*.momoshop.com.tw
+*.shopee.tw
+*.susercontent.com
+*.books.com.tw
+*.ruten.com.tw
+*.yahoo.com.tw
+*.104.com.tw
+*.591.com.tw
+*.dcard.tw
+*.ptt.cc
+*.ettoday.net
+*.ltn.com.tw
+*.udn.com
+*.chinatimes.com
+*.cna.com.tw
+*.pts.org.tw
+*.thsrc.com.tw
+*.railway.gov.tw
+*.7-11.com.tw
+*.family.com.tw
+*.jkos.com
+*.linepay.com.tw
+
+# ── Google（不含廣告網域）──
+google.com
+www.google.com
+google.com.tw
+www.google.com.tw
+*.gstatic.com
+*.googleapis.com
+*.ggpht.com
+*.gvt1.com
+*.gvt2.com
+accounts.google.com
+mail.google.com
+drive.google.com
+docs.google.com
+play.google.com
+maps.google.com
+photos.google.com
+youtube.com
+www.youtube.com
+m.youtube.com
+music.youtube.com
+*.ytimg.com
+*.googlevideo.com
+youtubei.googleapis.com
+android.clients.google.com
+connectivitycheck.gstatic.com
+clients3.google.com
+clients4.google.com
+
+# ── Apple ──
+apple.com
+www.apple.com
+*.icloud.com
+*.icloud-content.com
+*.mzstatic.com
+*.cdn-apple.com
+*.apple-cloudkit.com
+appleid.apple.com
+captive.apple.com
+gs.apple.com
+mesu.apple.com
+swscan.apple.com
+updates.cdn-apple.com
+itunes.apple.com
+apps.apple.com
+
+# ── Microsoft / Windows ──
+microsoft.com
+www.microsoft.com
+*.windowsupdate.com
+*.update.microsoft.com
+*.delivery.mp.microsoft.com
+login.microsoftonline.com
+login.live.com
+*.office.com
+*.office.net
+*.office365.com
+*.onedrive.com
+*.1drv.com
+*.outlook.com
+*.live.com
+*.msftconnecttest.com
+*.msftncsi.com
+*.xboxlive.com
+*.teams.microsoft.com
+
+# ── 社群 / 通訊 ──
+facebook.com
+www.facebook.com
+m.facebook.com
+*.fbcdn.net
+*.messenger.com
+instagram.com
+www.instagram.com
+*.cdninstagram.com
+*.whatsapp.com
+*.whatsapp.net
+*.discord.com
+*.discordapp.com
+*.discordapp.net
+*.telegram.org
+x.com
+twitter.com
+*.twimg.com
+threads.net
+www.threads.net
+
+# ── 影音 / 串流 ──
+*.netflix.com
+*.nflxvideo.net
+*.nflximg.net
+*.nflxso.net
+*.spotify.com
+*.scdn.co
+*.kkbox.com
+*.twitch.tv
+*.disneyplus.com
+*.bamgrid.com
+
+# ── 開發 / 雲端 / CDN ──
+# 注意：amazonaws.com、cloudfront.net、sharepoint.com、googleusercontent.com、
+# akamaihd.net、fastly.net、dropboxusercontent.com 這類「任何人都能申請子網域」
+# 的共用平台，駭客常拿來架釣魚站，所以刻意「不」整個放行，只在被誤擋時個別加。
+*.github.com
+*.githubusercontent.com
+*.githubassets.com
+*.gitlab.com
+*.cloudflare.com
+*.jsdelivr.net
+*.cdnjs.cloudflare.com
+*.dropbox.com
+*.amazon.com
+*.wikipedia.org
+*.wikimedia.org
+
+# ── 系統服務 ──
+*.ntp.org
+time.windows.com
+time.apple.com
+*.pi-hole.net
+*.letsencrypt.org
+*.digicert.com
+*.sectigo.com

@@ -1,0 +1,73 @@
+# 封鎖清單來源
+# 格式：<URL> [格式]
+#   格式可省略（自動辨識 hosts / 純網域 / ||domain^）
+#   csv:N  代表 CSV 檔取第 N 欄（從 1 起算）、第一列為標題
+# 以 # 開頭的行會被忽略；停用的來源請保留在檔尾「已停用」區並註明原因。
+# 來源若超過 MAX_SOURCE_AGE_DAYS（預設 365 天）沒更新，建置時會自動略過並寫進報告。
+
+## ── 廣告 ──────────────────────────────────────────────
+https://adaway.org/hosts.txt
+https://v.firebog.net/hosts/Admiral.txt
+https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt
+https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
+https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts
+https://v.firebog.net/hosts/AdguardDNS.txt
+https://v.firebog.net/hosts/Easylist.txt
+https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+
+## ── 追蹤 / 遙測 ───────────────────────────────────────
+https://v.firebog.net/hosts/Prigent-Ads.txt
+https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt
+https://v.firebog.net/hosts/Easyprivacy.txt
+https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
+https://v.firebog.net/hosts/static/w3kbl.txt
+
+## ── 惡意 / 釣魚 / 詐騙 ────────────────────────────────
+https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt
+https://v.firebog.net/hosts/Prigent-Crypto.txt
+https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt
+https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt
+https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt
+https://phishing.army/download/phishing_army_blocklist_extended.txt
+# 新增：取代已下線的 urlhaus.abuse.ch hostfile
+https://malware-filter.gitlab.io/malware-filter/urlhaus-filter-hosts.txt
+# 新增：PhishTank / OpenPhish 等來源整合的釣魚清單
+https://malware-filter.gitlab.io/malware-filter/phishing-filter-hosts.txt
+# 新增：HaGeZi 威脅情報彙整（惡意程式、釣魚、詐騙、C2 等，維護很勤）
+https://raw.githubusercontent.com/hagezi/dns-blocklists-legacy/main/domains/tif.txt
+# 新增：警政署 165「遭停止解析涉詐網站」（台灣在地詐騙網域，政府開放資料）
+https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/29E8E643-88ED-4952-B21E-BD42A3B7108C/resource/50EB9385-0B7E-4B7F-886B-038F8029E115/download csv:2
+
+## ── BlocklistProject 分類 ─────────────────────────────
+https://blocklistproject.github.io/Lists/abuse.txt
+https://blocklistproject.github.io/Lists/crypto.txt
+https://blocklistproject.github.io/Lists/drugs.txt
+https://blocklistproject.github.io/Lists/fraud.txt
+https://blocklistproject.github.io/Lists/gambling.txt
+https://blocklistproject.github.io/Lists/malware.txt
+https://blocklistproject.github.io/Lists/phishing.txt
+https://blocklistproject.github.io/Lists/piracy.txt
+https://blocklistproject.github.io/Lists/porn.txt
+https://blocklistproject.github.io/Lists/ransomware.txt
+https://blocklistproject.github.io/Lists/redirect.txt
+https://blocklistproject.github.io/Lists/scam.txt
+https://blocklistproject.github.io/Lists/tiktok.txt
+https://blocklistproject.github.io/Lists/torrent.txt
+https://blocklistproject.github.io/Lists/tracking.txt
+https://blocklistproject.github.io/Lists/smart-tv.txt
+
+## ── 已停用（保留紀錄）──────────────────────────────────
+# [已下線 HTTP 410] https://urlhaus.abuse.ch/downloads/hostfile/
+# [2022-10 後停更] https://justdomains.github.io/blocklists/lists/easylist-justdomains.txt
+# [2022-10 後停更] https://justdomains.github.io/blocklists/lists/easyprivacy-justdomains.txt
+# [2022-10 後停更] https://justdomains.github.io/blocklists/lists/adguarddns-justdomains.txt
+# [2022-10 後停更] https://justdomains.github.io/blocklists/lists/nocoin-justdomains.txt
+# [2024-10 後停更] https://raw.githubusercontent.com/BlackJack8/iOSAdblockList/master/Regular%20Hosts.txt
+# [2021-12 後停更] https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts
+# [2021-07 後停更] https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts
+# [2023-11 後停更] https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts
+# [2022-09 後停更] https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts
+# [2022-05 後停更] https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+# [2020-07 後停更] https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt
+# [2013 年 APT1 報告，早已過時] https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt

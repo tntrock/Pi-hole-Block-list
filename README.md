@@ -4,112 +4,49 @@
 最近閒閒沒事，剛好手邊有一塊沒在用的RaspberryPi 3，於是就在家裡弄了個Pi-hole來擋擋廣告<br>
 分享一下我所使用的BlockList給大家參考
 
+## 使用方式
 
-## Simple List
+Pi-hole 只要加入這**一個**網址就好：
 
-EasyList<br>
-https://justdomains.github.io/blocklists/lists/easylist-justdomains.txt
+```
+https://github.com/tntrock/Pi-hole-Block-list/releases/download/blocklist/blocklist.txt
+```
 
-EasyPrivacy<br>
-https://justdomains.github.io/blocklists/lists/easyprivacy-justdomains.txt
+- Pi-hole v6：Lists → 貼上網址 → Add blocklist，再到 Tools → Update Gravity
+- Pi-hole v5：Group Management → Adlists → 貼上網址 → Add，再執行 `pihole -g`
 
-AdGuard Simplified Domain Names Filter<br>
-https://justdomains.github.io/blocklists/lists/adguarddns-justdomains.txt
+每天台灣時間凌晨 2:23 由 GitHub Actions 自動重新產生。每次建置的報告（各來源狀態、數量、白名單命中）
+在 [Releases 頁面](https://github.com/tntrock/Pi-hole-Block-list/releases/tag/blocklist)。
 
-NoCoin Filter List<br>
-https://justdomains.github.io/blocklists/lists/nocoin-justdomains.txt
+## 自動化做了什麼
 
-Host-List for iOS ad blockers<br>
-https://raw.githubusercontent.com/BlackJack8/iOSAdblockList/master/Regular%20Hosts.txt
+1. 下載 [`sources.txt`](sources.txt) 裡的所有清單（hosts、純網域、`||domain^`、CSV 格式都能讀）
+2. 正規化（轉小寫、中文網域轉 punycode、剔除 IP / localhost / 格式錯誤）並**去除重複**
+3. **剔除過時來源**：超過 365 天沒更新的來源自動略過；已下線的來源會標在報告裡
+4. **套用白名單**，避免一般常用服務被誤擋：
+   - [`allowlist.txt`](allowlist.txt)：手動維護（台灣政府/學校/銀行、LINE、Google、Apple、Microsoft、串流等）
+   - [`allowlist-sources.txt`](allowlist-sources.txt)：社群整理的常見誤擋清單
+5. 安全機制：
+   - 來源暫時下載失敗 → 沿用最近 7 天內的快取，不會讓清單突然變少
+   - 總數比上次少 30% 以上 → 判定異常，不發佈，Pi-hole 繼續用舊的那份
 
+## 常見操作
 
-## BlocklistProject
+| 想做的事 | 怎麼做 |
+|---|---|
+| 新增來源 | 在 `sources.txt` 加一行網址，push 後會自動重建 |
+| 某網站被誤擋 | 在 `allowlist.txt` 加 `example.com`（只放行它）或 `*.example.com`（連同子網域） |
+| 立刻重建 | Actions → Build blocklist → Run workflow |
+| 刻意大幅刪減來源 | Run workflow 時勾選「略過數量驟減安全檢查」 |
 
-Abuse<br>
-https://blocklistproject.github.io/Lists/abuse.txt
+## 來源
 
-Crypto<br>
-https://blocklistproject.github.io/Lists/crypto.txt
+見 [`sources.txt`](sources.txt)，包含：
 
-Drugs<br>
-https://blocklistproject.github.io/Lists/drugs.txt
+- 廣告：AdAway、StevenBlack、AdGuard DNS、EasyList、anudeepND、Disconnect、yoyo、hostsVN
+- 追蹤：EasyPrivacy、Prigent、frogeye first-party trackers、KADhosts
+- 惡意 / 釣魚 / 詐騙：HaGeZi Threat Intelligence Feeds、Phishing Army、malware-filter (URLhaus / Phishing)、DandelionSprout Anti-Malware、NoTrack
+- **台灣在地詐騙網域**：[警政署 165「遭停止解析涉詐網站」開放資料](https://data.gov.tw/dataset/176455)
+- BlocklistProject 分類清單（惡意、詐騙、釣魚、賭博、色情、TikTok、追蹤…）
 
-Fraud<br>
-https://blocklistproject.github.io/Lists/fraud.txt
-
-Gambling<br>
-https://blocklistproject.github.io/Lists/gambling.txt
-
-Malware<br>
-https://blocklistproject.github.io/Lists/malware.txt
-
-Phishing<br>
-https://blocklistproject.github.io/Lists/phishing.txt
-
-Piracy<br>
-https://blocklistproject.github.io/Lists/piracy.txt
-
-Porn<br>
-https://blocklistproject.github.io/Lists/porn.txt
-
-Ransomware<br>
-https://blocklistproject.github.io/Lists/ransomware.txt
-
-Redirect<br>
-https://blocklistproject.github.io/Lists/redirect.txt
-
-Scam<br>
-https://blocklistproject.github.io/Lists/scam.txt
-
-Tiktok<br>
-https://blocklistproject.github.io/Lists/tiktok.txt
-
-Torrent<br>
-https://blocklistproject.github.io/Lists/torrent.txt
-
-Tracking<br>
-https://blocklistproject.github.io/Lists/tracking.txt
-
-Smart-TV<br>
-https://blocklistproject.github.io/Lists/smart-tv.txt
-
-
-## Firebug
-
-Suspicious Lists<br>
-https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts<br>
-https://v.firebog.net/hosts/static/w3kbl.txt<br>
-https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
-
-Advertising Lists<br>
-https://adaway.org/hosts.txt<br>
-https://v.firebog.net/hosts/Admiral.txt<br>
-https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt<br>
-https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt<br>
-https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext<br>
-https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts<br>
-https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts<br>
-https://v.firebog.net/hosts/AdguardDNS.txt<br>
-https://v.firebog.net/hosts/Easylist.txt
-
-Tracking & Telemetry Lists<br>
-https://v.firebog.net/hosts/Prigent-Ads.txt<br>
-https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts<br>
-https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt<br>
-https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt<br>
-https://v.firebog.net/hosts/Easyprivacy.txt
-
-Malicious Lists<br>
-https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt<br>
-https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt<br>
-https://v.firebog.net/hosts/Prigent-Crypto.txt<br>
-https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt<br>
-https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt<br>
-https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt<br>
-https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts<br>
-https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt<br>
-https://phishing.army/download/phishing_army_blocklist_extended.txt<br>
-https://urlhaus.abuse.ch/downloads/hostfile/
-
-Migrated from /etc/pihole/adlists.list<br>
-https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+已停用的舊來源與原因保留在 `sources.txt` 檔尾。
